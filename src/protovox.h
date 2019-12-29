@@ -28,7 +28,7 @@ Version forkée sans modif ici https://github.com/juanitomaille/WiFiManager
 /* Librairie de gestion de la mise à jour OTA des sensors
 inspiré de l'exemple https://github.com/turgu1/mqtt_ota_example
 */
-#include <lib/ota.h>
+#include <../lib/ota.h>
 
 
 // déclaration des objets wifi, mqtt et OTA

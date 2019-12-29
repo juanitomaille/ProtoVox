@@ -15,5 +15,12 @@
       "url": "http://www.up-ri.se",
       "maintainer": true
     }
+  ],
+  "dependencies":
+  [
+      {
+          "name": "PubSubClient",
+          "version": "https://github.com/juanitomaille/pubsubclient.git#v2.7.1"
+      }
   ]
 }
