@@ -1,0 +1,18 @@
+{
+  "name": "ProtoVox",
+  "version": "0.4.0",
+  "description": "A library for building firmware for sensors",
+  "keywords": ["device", "mqtt", "update"],
+  "author": "Jean Maillard <jean@up-ri.se>",
+  "homepage": "https://github.com/juanitomaille/ProtoVox",
+  "repository": {
+    "url": "git@github.com:juanitomaille/ProtoVox.git",
+    "type": "git"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "PubSubClient": "2.7.1"
+  },
+  "targetDependencies": {},
+  "bin": "./src"
+}
