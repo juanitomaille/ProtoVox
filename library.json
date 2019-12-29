@@ -1,0 +1,19 @@
+{
+  "name": "ProtoVox",
+  "keywords": "ProtoVox, up-rise",
+  "description": "Arduino Library for UP-RISE SENSORS",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/juanitomaille/SachaLeChat.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Jean MAILLARD",
+      "email": "jean@up-ri.se",
+      "url": "http://www.up-ri.se",
+      "maintainer": true
+    }
+  ]
+}
