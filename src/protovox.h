@@ -1,6 +1,5 @@
 #include <string>
 
-
 /* Librairie de gestion wifi et mqtt de tous les capteurs
     quelques utilities aussi comme le pourcentage batterie restant
 
@@ -30,29 +29,37 @@ inspiré de l'exemple https://github.com/turgu1/mqtt_ota_example
 */
 #include <../lib/ota.h>
 
+/* lib de debug */
+#include <../lib/debug.h>
+
 
 // déclaration des objets wifi, mqtt et OTA
 WiFiClient client;
 PubSubClient mqtt(client);
 OTA upd;
 
+
+
+
 /* Classe de base, il faudra surement mieux structurer ça. */
 class Protovox
 {
   public:
     Protovox();                                                   // Constructeur
-    void                connect(const char* hardwareName, const char* topicPath);        // gère la connection au Wifi (via WifiManager) et au broker MQTT (via PubSubClient)
+
+    void                connect();        // gère la connection au Wifi (via WifiManager) et au broker MQTT (via PubSubClient)
     void                sleep(int time);                          // met l'ESP8266 en veille profonde (conso inf 10µA)
     float               getBatteryCapacity(void);                 // mesure la tension aux bornes de la batterie
     char*               getSensorValue(char topic);               // récupère la valeur stockée dans le topic MQTT
-    char                getTopic();                               // récupère le topic
-    char*                getMessage();                             // récupère le string MQTT
+    char*               getTopic();                               // récupère le topic
+    unsigned int        getLength();
+    char*               getMessage();                             // récupère le string MQTT
+    const char*         getUpdateTopic();                         // récupère le topic complet pour l'update, par ex : /home/heater/ESP01-1/update
+    const char*         concatenate( const char* arg1, const char* arg2, const char* arg3);  // concatene plusieurs const char*
 
 
   private:
-    #define             PROTOVOX_LIB_VERSION   "v0.3"
-    const char*               hardware;                                 // nom qui crée le topic MQTT pour l'update ex : topic/hardwareName/UPDATE_TOPIC donne /home/heater/ESP01S-01/update
-    const char*               topicHardware;                            // chemin du topic lié au hardware par ex : /home/heater
+    #define             PROTOVOX_LIB_VERSION   "0.4.0"
 
     // connexion mqtt
     // TODO : trouver un moyen de cacher ça
@@ -64,31 +71,35 @@ class Protovox
     #define             UPDATE_TOPIC        "/update"             // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
     void                callback(char *topic, byte *payload, unsigned int length);
+    void                updateThing(char* _topic, byte* _payload);  // réalise l'update via OTA de l'objet
 
     // contenu du message MQTT
-    char                topic;
-    byte                payload;
+    char*               topic;
+    byte*               payload;
     unsigned int        length;
 
-    // veille autorisée ou pas ?
-    int                 veille =             digitalRead(D0);       // valable sur Wemos D1 mini (ESP8266)
+
+
+
 
 };
 
 Protovox::Protovox(){}
 
 
-void Protovox::connect(const char* hardwareName, const char* topicPath) {
+void Protovox::connect() {
 
-  this->hardware = hardwareName;
-  this->topicHardware = topicPath;
-  Serial.println();
-  Serial.print("PROTOVOX LIB VERSION :");
-  Serial.println(PROTOVOX_LIB_VERSION);
-  Serial.println();
-  Serial.print("PROPRIETAIRE :");
-  Serial.println("UP-RISE SAS F-90000 BELFORT");
-  Serial.println();
+
+
+    DPRINTLN();
+    DPRINT("PROTOVOX LIB VERSION :");
+    DPRINTLN(PROTOVOX_LIB_VERSION);
+    DPRINTLN();
+    DPRINT("PROPRIETAIRE :");
+    DPRINTLN("UP-RISE SAS F-90000 BELFORT");
+    DPRINTLN();
+
+
   //WiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around
   WiFiManager wifiManager;
@@ -110,31 +121,34 @@ void Protovox::connect(const char* hardwareName, const char* topicPath) {
 
 
   //si vous êtes là, le wifi est connecté
-  Serial.println();
-  Serial.println("------|||  Wifi connected  |||------");
-  Serial.println();
+
+    DPRINTLN();
+    DPRINTLN("------|||  Wifi connected  |||------");
+    DPRINTLN();
+
+
 
   mqtt.setServer(mqttServer, mqttPort);
   int _pointer = 1;
 
   while (!mqtt.connected()) {
-    Serial.print("Connexion au broker (tentative ");
-    Serial.print(_pointer);
-    Serial.print(")");
+    DPRINT("Connexion au broker (tentative ");
+    DPRINT(_pointer);
+    DPRINT(")");
     delay(1000);
-    Serial.print(".");
+    DPRINT(".");
 
-    if (mqtt.connect(hardwareName, mqttUser, mqttPassword )) {
+    if (mqtt.connect(PROTOVOX_HARDWARE_NAME, mqttUser, mqttPassword )) {
 
-      Serial.println();
-      Serial.println("------|||  MQTT connected  |||------");
-      Serial.println();
+      DPRINTLN();
+      DPRINTLN("------|||  MQTT connected  |||------");
+      DPRINTLN();
 
     } else {
 
-      Serial.println();
-      Serial.print("Echec Code Erreur :  ");
-      Serial.println(mqtt.state());
+      DPRINTLN();
+      DPRINT("Echec Code Erreur :  ");
+      DPRINTLN(mqtt.state());
       // on essaye 3x avant de dormir pour 2h
       if(_pointer < 3) {
         delay(5000);
@@ -148,19 +162,16 @@ void Protovox::connect(const char* hardwareName, const char* topicPath) {
   }
 
   /* Affiche l'état de la mémoire ROM */
-  Serial.println();
-  Serial.println(   "Etat de la mémoire"        );
-  Serial.print(     "Mémoire disponible: "      );  Serial.println(ESP.getFreeSketchSpace());
-  Serial.print(     "Taille firmware: "         );  Serial.println(ESP.getSketchSize());
-  Serial.print(     "Taille totale disponible: ");  Serial.println(ESP.getFlashChipRealSize());
-  Serial.println();
+  DPRINTLN();
+  DPRINTLN(   "Etat de la mémoire"        );
+  DPRINT(     "Mémoire disponible: "      );  DPRINTLN(ESP.getFreeSketchSpace());
+  DPRINT(     "Taille firmware: "         );  DPRINTLN(ESP.getSketchSize());
+  DPRINT(     "Taille totale disponible: ");  DPRINTLN(ESP.getFlashChipRealSize());
+  DPRINTLN();
 
   //mqtt.subscribe(UPDATE_TOPIC);
 
 
-  /*if (veille == 0){
-      if(mqtt.subscribe("test/ota")){Serial.println("Recherche un nouveau Firmware sur le serveur");}
-  }*/
 
   /*
   Classiquement, on déclare le callback comme ci-dessous mais ça ne fonctionne pas à l'intérieur d'une librairie (uniquement dans void setup())
@@ -169,38 +180,82 @@ void Protovox::connect(const char* hardwareName, const char* topicPath) {
   Voici, ci-dessous une astuce dont je ne maîtrise pas complètement la subtilité, mais ça fonctionne.
   A surveiller donc, si plus de réponse, en allant remettre la déclaration ci-dessus dans le main.ino ou main.ccp !
   */
+
   mqtt.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); } );
+
+  // s'il n'y a pas de mode veille, il faut vérifier l'update à chaque démarrage sinon, voir méthode sleep.
+  if (veille == 0){
+      if(mqtt.subscribe(this->getUpdateTopic())){DPRINTLN("Recherche un nouveau Firmware sur le serveur");}
+  }
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
+
 }
 
-char Protovox::getTopic(){
+const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3){
+  std::string _result;
+  _result += arg1;
+  _result += arg2;
+  _result += arg3;
+  return (const char*)_result.c_str();
+}
+
+char* Protovox::getTopic(){
   return topic;
 }
 
+unsigned int Protovox::getLength(){
+  return length;
+}
+
 char* Protovox::getMessage(){
-    return message;
+  byte* _payload = this->payload;
+  return (char*)_payload;
+}
+
+const char* Protovox::getUpdateTopic(){
+  //char* _topic_update;
+  //strcpy(_topic_update, PROTOVOX_TOPIC_PATH);
+//  strcat(_topic_update, PROTOVOX_HARDWARE_NAME);
+  return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,UPDATE_TOPIC);
 }
 
 
 void Protovox::sleep(int time){
 
-  if (veille == 1){
-    Serial.println("Entre en mode veille...");
-    delay(500);
-    ESP.deepSleep(time * 1000000);
-  }
+
+
+    if (veille == 1){
+      DPRINTLN("Entre en mode veille...");
+      delay(500);
+      ESP.deepSleep(time * 1000000);
+    }
+
   else {
-    Serial.println();
-    Serial.println("------   |||   MODE MISE A JOUR   |||   ------");
-    Serial.println();
-    Serial.println("Commutateur sur position mise à jour - Mode veille désactivé ");
-    Serial.println();
+    DPRINTLN();
+    DPRINTLN("------   |||   MODE MISE A JOUR   |||   ------");
+    DPRINTLN();
+    DPRINTLN("Commutateur sur position mise à jour - Mode veille désactivé ");
+    DPRINTLN();
 
     // subcribe to MQTT update
-    char* topic_update;
-    strcat(topic_update, this->topicHardware);
-    strcat(topic_update, this->hardware);
-    strcat(topic_update, UPDATE_TOPIC);
-    mqtt.subscribe(topic_update);
+
+    mqtt.subscribe(this->getUpdateTopic());
   }
 }
 
@@ -218,47 +273,51 @@ char* Protovox::getSensorValue(char topic){
     return message;
 }
 
-void Protovox::callback(char* topic, byte* payload, unsigned int length) {
+  /* update OTA */
+void Protovox::updateThing(char* _topic, byte* _payload){
 
-    /*
-    byte* _payload = payload;
-    unsigned int _length = length;
-    char* _topic = topic;
+  /* voir ota.h pour le fonctionnement.
+      etape 1 : envoi de la taille du firmware en octets sur le topic dédié (par ex /home/heater/ESP01-1/update)
+      etape 2 : envoi du .bin sur le même topic.*/
+  if (memcmp("SIZE=", _payload, 5) == 0 && _topic == this->getUpdateTopic()) {
 
-    payload[length] = '\0';
-    String message = String((char*)payload);
-    */
+    // on affiche la taille donnée dans MQTT
+    long _size = atol((const char *) &_payload[5]);
+    DPRINT("Taille déclarée: ");
+    DPRINT(_size);
+    DPRINTLN(" Octets");
 
-    std::stringstream topic_string;
-    topic_string << this->topicHardware << this->hardware << UPDATE_TOPIC;
-    std::string t = topic_string.str();
-
-    if (memcmp("SIZE=", payload, 5) == 0 && topic == t) {
-      long size = atol((const char *) &payload[5]);
-      Serial.print("Taille déclarée: ");
-      Serial.print(size);
-      Serial.println(" Octets");
-
-      if (upd.begin(size)) {
-        mqtt.setStream(upd);
-      }
+    if (upd.begin(_size)) {
+      mqtt.setStream(upd); // on se met en mode de réception de binaire
     }
-    else if (upd.isRunning()) {
+  }
+  else if (upd.isRunning()) {
 
-      if (upd.end()) {
-        if (upd.isCompleted()) {
-          Serial.println("Flashage effectué. Reboot....");
-          ESP.restart();
-          delay(10000);
-        }
-        else {
-          Serial.println("ERREUR: Flashage non terminé !");
-        }
+    if (upd.end()) {
+      if (upd.isCompleted()) {
+        DPRINTLN("Flashage effectué. Reboot....");
+        ESP.restart();
+        delay(10000);
       }
       else {
-        Serial.println("ERREUR: Taille Fichier firmware !");
+        DPRINTLN("ERREUR: Flashage non terminé !");
       }
     }
+    else {
+      DPRINTLN("ERREUR: Taille Fichier firmware !");
+    }
+  }
+}
 
 
+/*  Fonction prototype imposée par la lib PubSubClient  */
+void Protovox::callback(char* topic, byte* payload, unsigned int length) {
+
+
+    this->updateThing(topic,payload); // on vérifie si on a un nouveau firmware disponible et on fait l'update puis reboot.
+
+    // si pas d'update on actualise les variables de classe
+    this->topic = topic;
+    this->payload = payload;
+    this->length = length;
 }
