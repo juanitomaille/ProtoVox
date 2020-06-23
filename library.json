@@ -21,6 +21,10 @@
       {
           "name": "PubSubClient",
           "version": "https://github.com/juanitomaille/pubsubclient.git#v2.7.1"
+      },
+      {
+        "name": "wifiManagerDev",
+        "version": "https://github.com/tzapu/WiFiManager.git#development"
       }
   ],
   "frameworks": "arduino",
