@@ -107,10 +107,10 @@ void Protovox::connect(const char* command = NULL) {
   //reset settings
   if(command == "RESET") { wifiManager.resetSettings();}
 
-  //wifiManager.setClass("invert"); // dark theme, ne semble pas fonctionner
+  wifiManager.setClass("invert"); // dark theme, ne semble pas fonctionner
 
   // timeout if no wifi signal, très utile pour ne pas drainer la batterie connement
-  wifiManager.setConnectTimeout(20);
+  wifiManager.setConnectTimeout(30);
 
 
   //fetches ssid and pass from eeprom and tries to connect
