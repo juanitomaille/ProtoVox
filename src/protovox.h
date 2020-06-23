@@ -47,7 +47,7 @@ class Protovox
   public:
     Protovox();                                                   // Constructeur
 
-    void                connect();        // gère la connection au Wifi (via WifiManager) et au broker MQTT (via PubSubClient)
+    void                connect(const char* command);        // gère la connection au Wifi (via WifiManager) et au broker MQTT (via PubSubClient)
     void                sleep(int time);                          // met l'ESP8266 en veille profonde (conso inf 10µA)
     float               getBatteryCapacity(void);                 // mesure la tension aux bornes de la batterie
     char*               getSensorValue(char topic);               // récupère la valeur stockée dans le topic MQTT
@@ -87,7 +87,7 @@ class Protovox
 Protovox::Protovox(){}
 
 
-void Protovox::connect() {
+void Protovox::connect(const char* command = NULL) {
 
 
 
@@ -105,7 +105,7 @@ void Protovox::connect() {
   WiFiManager wifiManager;
 
   //reset settings
-  //wifiManager.resetSettings();
+  if(command == "RESET") { wifiManager.resetSettings();}
 
   //wifiManager.setClass("invert"); // dark theme, ne semble pas fonctionner
 
