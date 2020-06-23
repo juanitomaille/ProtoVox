@@ -107,7 +107,7 @@ void Protovox::connect(const char* command = NULL) {
   //reset settings
   if(command == "RESET") { wifiManager.resetSettings();}
 
-  wifiManager.setClass("invert"); // dark theme, ne semble pas fonctionner
+  //wifiManager.setClass("invert"); // dark theme, ne semble pas fonctionner
 
   // timeout if no wifi signal, très utile pour ne pas drainer la batterie connement
   wifiManager.setConnectTimeout(30);
