@@ -207,7 +207,7 @@ void Protovox::connect() {
 
 }
 
-const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3){
+const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL){
   std::string _result;
   _result += arg1;
   _result += arg2;
