@@ -23,7 +23,6 @@
           "version": "https://github.com/juanitomaille/pubsubclient.git#v2.7.1"
       }
   ],
-  "version": "0.4.1",
   "frameworks": "arduino",
-  "platforms": "*"
+  "platforms": "espressif8266"
 }
