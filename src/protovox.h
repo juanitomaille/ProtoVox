@@ -55,7 +55,7 @@ class Protovox
     unsigned int        getLength();
     char*               getMessage();                             // récupère le string MQTT
     const char*         getUpdateTopic();                         // récupère le topic complet pour l'update, par ex : /home/heater/ESP01-1/update
-    const char*         concatenate( char arg1, char arg2, char arg3, char arg4 , char arg5, char arg6 );  // concatene plusieurs const char*
+    const char*         concatenate( String arg1, String arg2, String arg3, String arg4 , String arg5, String arg6 );  // concatene plusieurs const char*
 
 
   private:
@@ -68,7 +68,7 @@ class Protovox
     const char*         mqttUser =          "jean";
     const char*         mqttPassword =      "Ugo2torm";
     char*               message;
-    char                UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
+    String              UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
     void                callback(char *topic, byte *payload, unsigned int length);
     void                updateThing(char* _topic, byte* _payload);  // réalise l'update via OTA de l'objet
@@ -208,18 +208,17 @@ void Protovox::connect(const char* command = NULL) {
   }
 }
 
-const char* Protovox::concatenate(char arg1, char arg2, char arg3 = NULL, char arg4 = NULL, char arg5 = NULL, char arg6 = NULL){
+const char* Protovox::concatenate(String arg1, String arg2, String arg3 = NULL, String arg4 = NULL, String arg5 = NULL, String arg6 = NULL){
   DPRINT("DEBUG CONCATENATE : ");
   std::string _result;
-  _result.reserve (16);
-  _result.push_back((char) arg1);
-  _result.push_back((char) arg2);
-  _result.push_back((char) arg3);
-  _result.push_back((char) arg4);
-  _result.push_back((char) arg5);
-  _result.push_back((char) arg6);
+  _result += arg1;
+  _result += arg2;
+  _result += arg3;
+  _result += arg4;
+  _result += arg5;
+  _result += arg6;
 
-   DPRINTLN((const char*)_result.c_str());
+  DPRINTLN((const char*)_result.c_str());
   return (const char*)_result.c_str();
 }
 
@@ -239,7 +238,7 @@ char* Protovox::getMessage(){
 const char* Protovox::getUpdateTopic(){
 
   DPRINTLN("---->function getUpdateTopic");
-  char _SLASH = "/";
+  String _SLASH = "/";
   DPRINTLN(PROTOVOX_TOPIC_PATH);
   DPRINTLN(PROTOVOX_HARDWARE_NAME);
   DPRINTLN(UPDATE_TOPIC);
