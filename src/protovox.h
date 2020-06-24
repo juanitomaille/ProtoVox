@@ -55,7 +55,7 @@ class Protovox
     unsigned int        getLength();
     char*               getMessage();                             // récupère le string MQTT
     const char*         getUpdateTopic();                         // récupère le topic complet pour l'update, par ex : /home/heater/ESP01-1/update
-    const char*         concatenate( String arg1, String arg2, String arg3, String arg4 , String arg5, String arg6 );  // concatene plusieurs const char*
+    const char*         concatenate( std::string arg1, std::string arg2, std::string arg3, std::string arg4 , std::string arg5, std::string arg6 );  // concatene plusieurs const char*
 
 
   private:
@@ -68,7 +68,7 @@ class Protovox
     const char*         mqttUser =          "jean";
     const char*         mqttPassword =      "Ugo2torm";
     char*               message;
-    String              UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
+    std::string              UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
     void                callback(char *topic, byte *payload, unsigned int length);
     void                updateThing(char* _topic, byte* _payload);  // réalise l'update via OTA de l'objet
@@ -208,7 +208,7 @@ void Protovox::connect(const char* command = NULL) {
   }
 }
 
-const char* Protovox::concatenate(String arg1, String arg2, String arg3 = NULL, String arg4 = NULL, String arg5 = NULL, String arg6 = NULL){
+const char* Protovox::concatenate(std::string arg1, std::string arg2, std::string arg3 = NULL, std::string arg4 = NULL, std::string arg5 = NULL, std::string arg6 = NULL){
   DPRINT("DEBUG CONCATENATE : ");
   std::string _result;
   _result += arg1;
@@ -238,7 +238,7 @@ char* Protovox::getMessage(){
 const char* Protovox::getUpdateTopic(){
 
   DPRINTLN("---->function getUpdateTopic");
-  String _SLASH = "/";
+  std::string _SLASH = "/";
   DPRINTLN(PROTOVOX_TOPIC_PATH);
   DPRINTLN(PROTOVOX_HARDWARE_NAME);
   DPRINTLN(UPDATE_TOPIC);
