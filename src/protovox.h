@@ -212,12 +212,12 @@ const char* Protovox::concatenate( const char* arg1, const char* arg2, const cha
   DPRINT("DEBUG CONCATENATE : ");
   std::string _result;
   _result.reserve (16);
-  _result.push_back(arg1);
-  _result.push_back(arg2);
-  _result.push_back(arg3);
-  _result.push_back(arg4);
-  _result.push_back(arg5);
-  _result.push_back(arg6);
+  _result.push_back(strdup(arg1));
+  _result.push_back(strdup(arg2));
+  _result.push_back(strdup(arg3));
+  _result.push_back(strdup(arg4));
+  _result.push_back(strdup(arg5));
+  _result.push_back(strdup(arg6));
 
    DPRINTLN((const char*)_result.c_str());
   return (const char*)_result.c_str();
