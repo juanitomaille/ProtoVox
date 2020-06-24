@@ -184,6 +184,8 @@ void Protovox::connect(const char* command = NULL) {
   //mqtt.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); } );
 
   // s'il n'y a pas de mode veille, il faut vérifier l'update à chaque démarrage sinon, voir méthode sleep.
+  /*
+  
   if (veille == 0){
       if(mqtt.subscribe(this->getUpdateTopic())){DPRINTLN("Recherche un nouveau Firmware sur le serveur");}
   }
@@ -208,7 +210,7 @@ void Protovox::connect(const char* command = NULL) {
     delay(200);
     digitalWrite(CONNECT_PIN,HIGH);
   }
-
+*/
 }
 
 const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
