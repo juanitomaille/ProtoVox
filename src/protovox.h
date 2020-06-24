@@ -216,7 +216,7 @@ const char* Protovox::concatenate( const char* arg1, const char* arg2, const cha
   _result += arg4;
   _result += arg5;
   _result += arg6;
-  DPRINT("DEBUG CONCATENATE : ")DPRINTLN(_result);
+  DPRINT("DEBUG CONCATENATE : ");DPRINTLN(_result);
   return (const char*)_result.c_str();
 }
 
@@ -234,11 +234,14 @@ char* Protovox::getMessage(){
 }
 
 const char* Protovox::getUpdateTopic(){
-  //char* _topic_update;
-  //strcpy(_topic_update, PROTOVOX_TOPIC_PATH);
-//  strcat(_topic_update, PROTOVOX_HARDWARE_NAME);
+
   DPRINTLN("---->function getUpdateTopic");
   const char* _SLASH = "/";
+  DPRINTLN(PROTOVOX_TOPIC_PATH);
+  DPRINTLN(PROTOVOX_HARDWARE_NAME);
+  DPRINTLN(UPDATE_TOPIC);
+  DPRINT("-- TOPIC : ");DPRINTLN(this->concatenate(PROTOVOX_TOPIC_PATH, PROTOVOX_HARDWARE_NAME, _SLASH, UPDATE_TOPIC))
+
 
   return this->concatenate(PROTOVOX_TOPIC_PATH, PROTOVOX_HARDWARE_NAME, _SLASH, UPDATE_TOPIC);
 }
