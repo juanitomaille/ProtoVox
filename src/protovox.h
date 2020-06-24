@@ -55,7 +55,7 @@ class Protovox
     unsigned int        getLength();
     char*               getMessage();                             // récupère le string MQTT
     const char*         getUpdateTopic();                         // récupère le topic complet pour l'update, par ex : /home/heater/ESP01-1/update
-    const char*         concatenate( const char* arg1, const char* arg2, const char* arg3, const char* arg4 , const char* arg5, const char* arg6 );  // concatene plusieurs const char*
+    const char*         concatenate( char arg1, char arg2, char arg3, char arg4 , char arg5, char arg6 );  // concatene plusieurs const char*
 
 
   private:
@@ -208,7 +208,7 @@ void Protovox::connect(const char* command = NULL) {
   }
 }
 
-const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
+const char* Protovox::concatenate(char arg1, char arg2, char arg3 = NULL, char arg4 = NULL, char arg5 = NULL, char arg6 = NULL){
   DPRINT("DEBUG CONCATENATE : ");
   std::string _result;
   _result.reserve (16);
