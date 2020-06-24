@@ -239,7 +239,7 @@ const char* Protovox::getUpdateTopic(){
   //char* _topic_update;
   //strcpy(_topic_update, PROTOVOX_TOPIC_PATH);
 //  strcat(_topic_update, PROTOVOX_HARDWARE_NAME);
-  DPRINT("---->ICI")
+  DPRINT("---->ICI");
   return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,"/",UPDATE_TOPIC);
 }
 
