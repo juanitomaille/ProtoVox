@@ -78,10 +78,6 @@ class Protovox
     byte*               payload;
     unsigned int        length;
 
-
-
-
-
 };
 
 Protovox::Protovox(){}
@@ -181,10 +177,10 @@ void Protovox::connect(const char* command = NULL) {
   Voici, ci-dessous une astuce dont je ne maîtrise pas complètement la subtilité, mais ça fonctionne.
   A surveiller donc, si plus de réponse, en allant remettre la déclaration ci-dessus dans le main.ino ou main.ccp !
   */
-  //mqtt.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); } );
+  mqtt.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); } );
 
   // s'il n'y a pas de mode veille, il faut vérifier l'update à chaque démarrage sinon, voir méthode sleep.
-  /*
+  
 
   if (veille == 0){
       if(mqtt.subscribe(this->getUpdateTopic())){DPRINTLN("Recherche un nouveau Firmware sur le serveur");}
@@ -210,7 +206,6 @@ void Protovox::connect(const char* command = NULL) {
     delay(200);
     digitalWrite(CONNECT_PIN,HIGH);
   }
-*/
 }
 
 const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
@@ -243,16 +238,12 @@ const char* Protovox::getUpdateTopic(){
 //  strcat(_topic_update, PROTOVOX_HARDWARE_NAME);
   DPRINTLN("---->function getUpdateTopic");
   const char* _SLASH = "/";
-  DPRINT("TOPIC :");
-  DPRINTLN(this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,_SLASH,UPDATE_TOPIC);
-
 
   return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,_SLASH,UPDATE_TOPIC);
 }
 
 
 void Protovox::sleep(int time){
-
 
 
     if (veille == 1){
