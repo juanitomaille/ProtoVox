@@ -68,7 +68,7 @@ class Protovox
     const char*         mqttUser =          "jean";
     const char*         mqttPassword =      "Ugo2torm";
     char*               message;
-    #define             UPDATE_TOPIC        "update"             // là ou est stocké le nouveau firmware
+    const char*         UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
     void                callback(char *topic, byte *payload, unsigned int length);
     void                updateThing(char* _topic, byte* _payload);  // réalise l'update via OTA de l'objet
