@@ -55,11 +55,11 @@ class Protovox
     unsigned int        getLength();
     char*               getMessage();                             // récupère le string MQTT
     const char*         getUpdateTopic();                         // récupère le topic complet pour l'update, par ex : /home/heater/ESP01-1/update
-    const char*         concatenate( const char* arg1, const char* arg2, const char* arg3);  // concatene plusieurs const char*
+    const char*         concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL);  // concatene plusieurs const char*
 
 
   private:
-    #define             PROTOVOX_LIB_VERSION   "0.4.0"
+    #define             PROTOVOX_LIB_VERSION   "0.4.1"
 
     // connexion mqtt
     // TODO : trouver un moyen de cacher ça
@@ -68,7 +68,7 @@ class Protovox
     const char*         mqttUser =          "jean";
     const char*         mqttPassword =      "Ugo2torm";
     char*               message;
-    #define             UPDATE_TOPIC        "/update"             // là ou est stocké le nouveau firmware
+    #define             UPDATE_TOPIC        "update"             // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
     void                callback(char *topic, byte *payload, unsigned int length);
     void                updateThing(char* _topic, byte* _payload);  // réalise l'update via OTA de l'objet
@@ -187,31 +187,38 @@ void Protovox::connect(const char* command = NULL) {
   if (veille == 0){
       if(mqtt.subscribe(this->getUpdateTopic())){DPRINTLN("Recherche un nouveau Firmware sur le serveur");}
   }
-  digitalWrite(CONNECT_PIN,HIGH);
-  delay(200);
-  digitalWrite(CONNECT_PIN,LOW);
-  delay(200);
-  digitalWrite(CONNECT_PIN,HIGH);
-  delay(200);
-  digitalWrite(CONNECT_PIN,LOW);
-  delay(200);
-  digitalWrite(CONNECT_PIN,HIGH);
-  delay(200);
-  digitalWrite(CONNECT_PIN,LOW);
-  delay(200);
-  digitalWrite(CONNECT_PIN,HIGH);
-  delay(200);
-  digitalWrite(CONNECT_PIN,LOW);
-  delay(200);
-  digitalWrite(CONNECT_PIN,HIGH);
+
+  if (CONNECT_PIN != NULL){
+
+    digitalWrite(CONNECT_PIN,HIGH);
+    delay(200);
+    digitalWrite(CONNECT_PIN,LOW);
+    delay(200);
+    digitalWrite(CONNECT_PIN,HIGH);
+    delay(200);
+    digitalWrite(CONNECT_PIN,LOW);
+    delay(200);
+    digitalWrite(CONNECT_PIN,HIGH);
+    delay(200);
+    digitalWrite(CONNECT_PIN,LOW);
+    delay(200);
+    digitalWrite(CONNECT_PIN,HIGH);
+    delay(200);
+    digitalWrite(CONNECT_PIN,LOW);
+    delay(200);
+    digitalWrite(CONNECT_PIN,HIGH);
+  }
 
 }
 
-const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL){
+const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
   std::string _result;
   _result += arg1;
   _result += arg2;
   _result += arg3;
+  _result += arg4;
+  _result += arg5;
+  _result += arg6;
   return (const char*)_result.c_str();
 }
 
@@ -232,7 +239,8 @@ const char* Protovox::getUpdateTopic(){
   //char* _topic_update;
   //strcpy(_topic_update, PROTOVOX_TOPIC_PATH);
 //  strcat(_topic_update, PROTOVOX_HARDWARE_NAME);
-  return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,UPDATE_TOPIC);
+  DPRINT("---->ICI")
+  return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,"/",UPDATE_TOPIC);
 }
 
 
