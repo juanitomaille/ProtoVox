@@ -172,16 +172,16 @@ void Protovox::connect(const char* command = NULL) {
   //mqtt.subscribe(UPDATE_TOPIC);
 
 
-
+  DPRINTLN("----> If crash After this line go to -> function connect -> setCallback");
   /*
   Classiquement, on déclare le callback comme ci-dessous mais ça ne fonctionne pas à l'intérieur d'une librairie (uniquement dans void setup())
-  mqtt.setCallback(callback);
-
+  */
+  mqtt.setCallback(this->callback);
+  /*
   Voici, ci-dessous une astuce dont je ne maîtrise pas complètement la subtilité, mais ça fonctionne.
   A surveiller donc, si plus de réponse, en allant remettre la déclaration ci-dessus dans le main.ino ou main.ccp !
   */
-  DPRINTLN("---->function connect before callback");
-  mqtt.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); } );
+  //mqtt.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); } );
 
   // s'il n'y a pas de mode veille, il faut vérifier l'update à chaque démarrage sinon, voir méthode sleep.
   if (veille == 0){
