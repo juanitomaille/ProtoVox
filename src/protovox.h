@@ -239,7 +239,7 @@ char* Protovox::getMessage(){
 const char* Protovox::getUpdateTopic(){
 
   DPRINTLN("---->function getUpdateTopic");
-  const char* _SLASH = "/";
+  char _SLASH = "/";
   DPRINTLN(PROTOVOX_TOPIC_PATH);
   DPRINTLN(PROTOVOX_HARDWARE_NAME);
   DPRINTLN(UPDATE_TOPIC);
