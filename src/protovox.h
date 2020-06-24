@@ -55,7 +55,7 @@ class Protovox
     unsigned int        getLength();
     char*               getMessage();                             // récupère le string MQTT
     const char*         getUpdateTopic();                         // récupère le topic complet pour l'update, par ex : /home/heater/ESP01-1/update
-    const char*         concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL);  // concatene plusieurs const char*
+    const char*         concatenate( const char* arg1, const char* arg2, const char* arg3, const char* arg4 , const char* arg5, const char* arg6 );  // concatene plusieurs const char*
 
 
   private:
