@@ -239,7 +239,7 @@ const char* Protovox::getUpdateTopic(){
   DPRINTLN("---->function getUpdateTopic");
   const char* _SLASH = "/";
 
-  return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,_SLASH,UPDATE_TOPIC);
+  return this->concatenate(PROTOVOX_TOPIC_PATH, PROTOVOX_HARDWARE_NAME, _SLASH, UPDATE_TOPIC);
 }
 
 
