@@ -176,7 +176,7 @@ void Protovox::connect(const char* command = NULL) {
   /*
   Classiquement, on déclare le callback comme ci-dessous mais ça ne fonctionne pas à l'intérieur d'une librairie (uniquement dans void setup())
   */
-  mqtt.setCallback(this->callback);
+  //mqtt.setCallback(callback);
   /*
   Voici, ci-dessous une astuce dont je ne maîtrise pas complètement la subtilité, mais ça fonctionne.
   A surveiller donc, si plus de réponse, en allant remettre la déclaration ci-dessus dans le main.ino ou main.ccp !
