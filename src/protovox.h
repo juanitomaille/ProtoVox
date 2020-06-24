@@ -209,6 +209,7 @@ void Protovox::connect(const char* command = NULL) {
 }
 
 const char* Protovox::concatenate( const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
+  DPRINT("DEBUG CONCATENATE : ");
   std::string _result;
   _result += arg1;
   _result += arg2;
@@ -216,7 +217,7 @@ const char* Protovox::concatenate( const char* arg1, const char* arg2, const cha
   _result += arg4;
   _result += arg5;
   _result += arg6;
-  DPRINT("DEBUG CONCATENATE : ");DPRINTLN((const char*)_result.c_str());
+   DPRINTLN((const char*)_result.c_str());
   return (const char*)_result.c_str();
 }
 
