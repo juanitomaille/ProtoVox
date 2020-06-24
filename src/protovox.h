@@ -185,7 +185,7 @@ void Protovox::connect(const char* command = NULL) {
 
   // s'il n'y a pas de mode veille, il faut vérifier l'update à chaque démarrage sinon, voir méthode sleep.
   /*
-  
+
   if (veille == 0){
       if(mqtt.subscribe(this->getUpdateTopic())){DPRINTLN("Recherche un nouveau Firmware sur le serveur");}
   }
@@ -243,6 +243,9 @@ const char* Protovox::getUpdateTopic(){
 //  strcat(_topic_update, PROTOVOX_HARDWARE_NAME);
   DPRINTLN("---->function getUpdateTopic");
   const char* _SLASH = "/";
+  DPRINT("TOPIC :");
+  DPRINTLN(this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,_SLASH,UPDATE_TOPIC);
+
 
   return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,_SLASH,UPDATE_TOPIC);
 }
