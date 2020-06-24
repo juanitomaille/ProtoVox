@@ -180,7 +180,7 @@ void Protovox::connect(const char* command = NULL) {
   Voici, ci-dessous une astuce dont je ne maîtrise pas complètement la subtilité, mais ça fonctionne.
   A surveiller donc, si plus de réponse, en allant remettre la déclaration ci-dessus dans le main.ino ou main.ccp !
   */
-
+  DPRINTLN("---->function connect before callback");
   mqtt.setCallback([this] (char* topic, byte* payload, unsigned int length) { this->callback(topic, payload, length); } );
 
   // s'il n'y a pas de mode veille, il faut vérifier l'update à chaque démarrage sinon, voir méthode sleep.
@@ -239,7 +239,7 @@ const char* Protovox::getUpdateTopic(){
   //char* _topic_update;
   //strcpy(_topic_update, PROTOVOX_TOPIC_PATH);
 //  strcat(_topic_update, PROTOVOX_HARDWARE_NAME);
-  DPRINT("---->ICI");
+  DPRINTLN("---->function getUpdateTopic");
   const char* _SLASH = "/";
 
   return this->concatenate(PROTOVOX_TOPIC_PATH,PROTOVOX_HARDWARE_NAME,_SLASH,UPDATE_TOPIC);
@@ -323,6 +323,7 @@ void Protovox::updateThing(char* _topic, byte* _payload){
 /*  Fonction prototype imposée par la lib PubSubClient  */
 void Protovox::callback(char* topic, byte* payload, unsigned int length) {
 
+    DPRINTLN("---->function callback");
 
     this->updateThing(topic,payload); // on vérifie si on a un nouveau firmware disponible et on fait l'update puis reboot.
 
