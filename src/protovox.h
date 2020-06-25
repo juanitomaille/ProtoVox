@@ -211,19 +211,30 @@ void Protovox::connect(const char* command = NULL) {
 const char* Protovox::concatenate(const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
   DPRINT("DEBUG CONCATENATE : ");
   
+  // on calcule la longueur de la chaine de caractère concaténée
+  int length = 0;
+  length += strlen(arg1);
+  length += strlen(arg2);
+  if (arg3 != NULL) {length += strlen(arg3);}
+  if (arg4 != NULL) {length += strlen(arg4);}
+  if (arg5 != NULL) {length += strlen(arg5);}
+  if (arg6 != NULL) {length += strlen(arg6);}
 
+  // on crée la chaine de caractère en allouant la bonne taille mémoire
+  char * _result = (char*) malloc( length*sizeof(char) );
 
-    char * _result = (char*) malloc((strlen(arg1) + strlen(arg2) + strlen(arg3) + strlen(arg4) + strlen(arg5) + strlen(arg6))*sizeof(char));
-    strcpy(_result,arg1);
-    strcat(_result,arg2);
-    if (arg3 != NULL) {strcat(_result,arg3);}
-    if (arg4 != NULL) {strcat(_result,arg4);}
-    if (arg5 != NULL) {strcat(_result,arg5);}
-    if (arg6 != NULL) {strcat(_result,arg6);}
-    DPRINT("result concat :");
-    DPRINTLN(_result);
+  // on injecte les chaines de caractères
+  strcpy(_result,arg1);
+  strcat(_result,arg2);
+  if (arg3 != NULL) {strcat(_result,arg3);}
+  if (arg4 != NULL) {strcat(_result,arg4);}
+  if (arg5 != NULL) {strcat(_result,arg5);}
+  if (arg6 != NULL) {strcat(_result,arg6);}
+  
+  DPRINT("result concat :");
+  DPRINTLN(_result);
 
-    return _result; 
+  return _result; 
   
   /*
   std::string _result;
