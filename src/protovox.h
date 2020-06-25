@@ -55,7 +55,7 @@ class Protovox
     unsigned int        getLength();
     char*               getMessage();                             // récupère le string MQTT
     const char*         getUpdateTopic();                         // récupère le topic complet pour l'update, par ex : /home/heater/ESP01-1/update
-    const char*         concatenate( std::string arg1, std::string arg2, std::string arg3, std::string arg4 , std::string arg5, std::string arg6 );  // concatene plusieurs const char*
+    const char*         concatenate( const char* arg1, const char* arg2, const char* arg3, const char* arg4 , const char* arg5, const char* arg6 );  // concatene plusieurs const char*
 
 
   private:
@@ -68,7 +68,7 @@ class Protovox
     const char*         mqttUser =          "jean";
     const char*         mqttPassword =      "Ugo2torm";
     char*               message;
-    std::string         UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
+    const char*         UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
     void                callback(char *topic, byte *payload, unsigned int length);
     void                updateThing(char* _topic, byte* _payload);  // réalise l'update via OTA de l'objet
@@ -208,18 +208,37 @@ void Protovox::connect(const char* command = NULL) {
   }
 }
 
-const char* Protovox::concatenate(std::string arg1, std::string arg2, std::string arg3 = NULL, std::string arg4 = NULL, std::string arg5 = NULL, std::string arg6 = NULL){
+const char* Protovox::concatenate(const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
   DPRINT("DEBUG CONCATENATE : ");
+  
+
+
+    char * _result = (char*) malloc((strlen(arg1) + strlen(arg2) + strlen(arg3) + strlen(arg4) + strlen(arg5) + strlen(arg6))*sizeof(char));
+    strcpy(_result,arg1);
+    strcat(_result,arg2);
+    strcat(_result,arg3);
+    strcat(_result,arg4);
+    strcat(_result,arg5);
+    strcat(_result,arg6);
+    DPRINT("result concat :");
+    DPRINTLN(_result);
+
+    return _result; 
+  
+  /*
   std::string _result;
+  _result.resize(128);
   _result += arg1;
   _result += arg2;
-  _result += arg3;
+  if(arg3 != NULL) {_result += arg3;}
   _result += arg4;
   _result += arg5;
   _result += arg6;
 
   DPRINTLN(_result.c_str());
   return _result.c_str();
+  */
+
 }
 
 char* Protovox::getTopic(){
@@ -238,7 +257,7 @@ char* Protovox::getMessage(){
 const char* Protovox::getUpdateTopic(){
 
   DPRINTLN("---->function getUpdateTopic");
-  std::string _SLASH = "/";
+  const char* _SLASH = "/";
 
     return this->concatenate(PROTOVOX_TOPIC_PATH, PROTOVOX_HARDWARE_NAME, _SLASH, UPDATE_TOPIC);
 }
