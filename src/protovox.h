@@ -216,10 +216,10 @@ const char* Protovox::concatenate(const char* arg1, const char* arg2, const char
     char * _result = (char*) malloc((strlen(arg1) + strlen(arg2) + strlen(arg3) + strlen(arg4) + strlen(arg5) + strlen(arg6))*sizeof(char));
     strcpy(_result,arg1);
     strcat(_result,arg2);
-    strcat(_result,arg3);
-    strcat(_result,arg4);
-    strcat(_result,arg5);
-    strcat(_result,arg6);
+    if (arg3 != NULL) {strcat(_result,arg3);}
+    if (arg4 != NULL) {strcat(_result,arg4);}
+    if (arg5 != NULL) {strcat(_result,arg5);}
+    if (arg6 != NULL) {strcat(_result,arg6);}
     DPRINT("result concat :");
     DPRINTLN(_result);
 
