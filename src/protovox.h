@@ -134,7 +134,7 @@ void Protovox::connect(const char* command = NULL) {
     delay(1000);
     DPRINT(".");
 
-    if (mqtt.connect(PROTOVOX_HARDWARE_NAME.c_str(), mqttUser, mqttPassword )) {
+    if (mqtt.connect(PROTOVOX_HARDWARE_NAME, mqttUser, mqttPassword )) {
 
       DPRINTLN();
       DPRINTLN("------|||  MQTT connected  |||------");
