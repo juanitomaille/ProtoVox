@@ -218,8 +218,8 @@ const char* Protovox::concatenate(std::string arg1, std::string arg2, std::strin
   _result += arg5;
   _result += arg6;
 
-  DPRINTLN((const char*)_result.c_str());
-  return (const char*)_result.c_str();
+  DPRINTLN(_result.c_str());
+  return _result.c_str();
 }
 
 char* Protovox::getTopic(){
