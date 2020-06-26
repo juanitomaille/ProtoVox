@@ -193,26 +193,24 @@ void Protovox::connect(int command = NULL) {
       if(mqtt.subscribe(this->getUpdateTopic())){DPRINTLN("Recherche un nouveau Firmware sur le serveur");}
   }
 
-  if (CONNECT_PIN != NULL){
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
+  delay(200);
+  digitalWrite(CONNECT_PIN,LOW);
+  delay(200);
+  digitalWrite(CONNECT_PIN,HIGH);
 
-    digitalWrite(CONNECT_PIN,HIGH);
-    delay(200);
-    digitalWrite(CONNECT_PIN,LOW);
-    delay(200);
-    digitalWrite(CONNECT_PIN,HIGH);
-    delay(200);
-    digitalWrite(CONNECT_PIN,LOW);
-    delay(200);
-    digitalWrite(CONNECT_PIN,HIGH);
-    delay(200);
-    digitalWrite(CONNECT_PIN,LOW);
-    delay(200);
-    digitalWrite(CONNECT_PIN,HIGH);
-    delay(200);
-    digitalWrite(CONNECT_PIN,LOW);
-    delay(200);
-    digitalWrite(CONNECT_PIN,HIGH);
-  }
 }
 
 const char* Protovox::concatenate(const char* arg1, const char* arg2, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL, const char* arg6 = NULL){
