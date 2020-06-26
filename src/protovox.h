@@ -83,9 +83,16 @@ class Protovox
 Protovox::Protovox(){}
 
 
-void Protovox::connect(const char* command = NULL) {
+void Protovox::connect(int command = NULL) {
 
+    /*
+    
+    command :
+    NULL = no particular command
+    0 = Reset params
 
+    
+    */
 
     DPRINTLN();
     DPRINT("PROTOVOX LIB VERSION :");
@@ -101,7 +108,7 @@ void Protovox::connect(const char* command = NULL) {
   WiFiManager wifiManager;
 
   //reset settings
-  if(command == "RESET") { wifiManager.resetSettings();}
+  if(command == 0) { wifiManager.resetSettings();}
 
   //wifiManager.setClass("invert"); // dark theme, ne semble pas fonctionner
 
