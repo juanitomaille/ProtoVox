@@ -83,13 +83,13 @@ class Protovox
 Protovox::Protovox(){}
 
 
-void Protovox::connect(int command = NULL) {
+void Protovox::connect(int command = 0) {
 
     /*
     
     command :
-    NULL = no particular command
-    0 = Reset params
+    0 = no particular command
+    1 = Reset params
 
     
     */
