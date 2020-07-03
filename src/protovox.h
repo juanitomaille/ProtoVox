@@ -108,7 +108,7 @@ void Protovox::connect(int command = 0) {
   WiFiManager wifiManager;
 
   //reset settings
-  if(command == 0) { wifiManager.resetSettings();}
+  if(command == 1) { wifiManager.resetSettings();}
 
   //wifiManager.setClass("invert"); // dark theme, ne semble pas fonctionner
 
