@@ -65,7 +65,7 @@ class Protovox
     // TODO : trouver un moyen de cacher ça
     const char*         mqttServer =        "mqtt.factorybox.local";
     const int           mqttPort =          1883;
-    const char*         mqttUser =          "jean";
+    const char*         mqttUser =          "";
     const char*         mqttPassword =      "";
     char*               message;
     const char*         UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
