@@ -63,7 +63,7 @@ class Protovox
 
     // connexion mqtt
     // TODO : trouver un moyen de cacher ça
-    const char*         mqttServer =        "mqtt.factorybox.local";
+    const char*         mqttServer =        "10.3.141.1";
     const int           mqttPort =          1883;
     const char*         mqttUser =          "jean";
     const char*         mqttPassword =      "Ugo2torm";
