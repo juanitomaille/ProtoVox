@@ -118,7 +118,7 @@ void Protovox::connect(int command = 0) {
 
   //fetches ssid and pass from eeprom and tries to connect
   //and goes into a blocking loop awaiting configuration
-  wifiManager.autoConnect("ProtoVox");
+  wifiManager.autoConnect("ShockSensor");
 
   if(WiFi.status() != WL_CONNECTED){ sleep(7200); } // si pas de wifi, attendre 2h avant de recommencer, incompatible avec le portail captif
 
