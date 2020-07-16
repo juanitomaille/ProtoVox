@@ -65,8 +65,8 @@ class Protovox
     // TODO : trouver un moyen de cacher ça
     const char*         mqttServer =        "mqtt.factorybox.local";
     const int           mqttPort =          1883;
-    const char*         mqttUser =          "";
-    const char*         mqttPassword =      "";
+    const char*         mqttUser =          "jean";
+    const char*         mqttPassword =      "Ugo2torm";
     char*               message;
     const char*         UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
@@ -141,7 +141,7 @@ void Protovox::connect(int command = 0) {
     delay(1000);
     DPRINT(".");
 
-    if (mqtt.connect(PROTOVOX_HARDWARE_NAME, mqttUser, mqttPassword )) {
+    if (mqtt.connect(PROTOVOX_HARDWARE_NAME)) {
 
       DPRINTLN();
       DPRINTLN("------|||  MQTT connected  |||------");
