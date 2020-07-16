@@ -63,10 +63,10 @@ class Protovox
 
     // connexion mqtt
     // TODO : trouver un moyen de cacher ça
-    const char*         mqttServer =        "mqtt.seed.fr.nf";
+    const char*         mqttServer =        "mqtt.factorybox.local";
     const int           mqttPort =          1883;
     const char*         mqttUser =          "jean";
-    const char*         mqttPassword =      "Ugo2torm";
+    const char*         mqttPassword =      "";
     char*               message;
     const char*         UPDATE_TOPIC =      "update";              // là ou est stocké le nouveau firmware
     #define             MAX_MSG_LEN         (128)                  // écrase la valeur max réception de message dans PubSubClient, pas sûr que ce soit encore utile
