@@ -63,7 +63,7 @@ class Protovox
 
     // connexion mqtt
     // TODO : trouver un moyen de cacher ça
-    const char*         mqttServer =        "mqtt.seed.fr.nf";
+    const char*         mqttServer =        "10.3.141.1";
     const int           mqttPort =          1883;
     const char*         mqttUser =          "jean";
     const char*         mqttPassword =      "Ugo2torm";
@@ -118,7 +118,7 @@ void Protovox::connect(int command = 0) {
 
   //fetches ssid and pass from eeprom and tries to connect
   //and goes into a blocking loop awaiting configuration
-  wifiManager.autoConnect("ProtoVox");
+  wifiManager.autoConnect("ShockSensor");
 
   if(WiFi.status() != WL_CONNECTED){ sleep(7200); } // si pas de wifi, attendre 2h avant de recommencer, incompatible avec le portail captif
 
@@ -141,7 +141,7 @@ void Protovox::connect(int command = 0) {
     delay(1000);
     DPRINT(".");
 
-    if (mqtt.connect(PROTOVOX_HARDWARE_NAME, mqttUser, mqttPassword )) {
+    if (mqtt.connect(PROTOVOX_HARDWARE_NAME)) {
 
       DPRINTLN();
       DPRINTLN("------|||  MQTT connected  |||------");
